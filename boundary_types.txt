@@ -1,0 +1,24 @@
+ id | code |   name   | tenantid 
+----+------+----------+----------
+  1 | 1    | City     | default
+  6 | 6    | City     | default
+  2 | 2    | Circle   | default
+  3 | 3    | Zone     | default
+  4 | 4    | Ward     | default
+  5 | 5    | Block    | default
+  7 | 7    | Locality | default
+  8 | 8    | Street   | default
+ 10 | 10   | Ward     | default
+ 11 | 11   | City     | panavel
+ 12 | 12   | City     | panavel
+ 13 | 13   | Circle   | panavel
+ 14 | 14   | Zone     | panavel
+ 15 | 15   | Ward     | panavel
+ 16 | 16   | Block    | panavel
+ 17 | 17   | Locality | panavel
+ 18 | 18   | Street   | panavel
+ 19 | 19   | City     | panavel
+ 20 | 20   | Ward     | panavel
+  9 | 9    | City     | default
+(20 rows)
+

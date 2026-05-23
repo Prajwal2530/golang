@@ -1,0 +1,22 @@
+{
+  "tenantId": "pb",
+  "moduleName": "tenant",
+  "tenants": [
+    {
+      "code": "pb",
+      "name": "Default",
+      "description": "Default Tenant",
+      "logoId": "https://digit-oss.s3.ap-south-1.amazonaws.com/logo.png",
+      "imageId": "https://digit-oss.s3.ap-south-1.amazonaws.com/logo.png",
+      "domainUrl": "localhost",
+      "type": "CITY",
+      "city": {
+        "name": "Default City",
+        "code": "CITY01",
+        "districtCode": "DIST01",
+        "districtName": "District 01",
+        "regionName": "Region 01"
+      }
+    }
+  ]
+}

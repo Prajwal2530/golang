@@ -1,0 +1,45 @@
+{
+  "moduleDetails": [
+    {
+      "moduleName": "egov-location",
+      "masterDetails": [
+        {
+          "name": "TenantBoundary"
+        }
+      ]
+    },
+    {
+      "moduleName": "tenant",
+      "masterDetails": [
+        {
+          "name": "tenants"
+        }
+      ]
+    },
+    {
+      "moduleName": "DataSecurity",
+      "masterDetails": [
+        {
+          "name": "EncryptionPolicy"
+        },
+        {
+          "name": "SecurityPolicy"
+        },
+        {
+          "name": "MaskingPatterns"
+        },
+        {
+          "name": "DecryptionABAC"
+        }
+      ]
+    },
+    {
+      "moduleName": "Workflow",
+      "masterDetails": [
+        {
+          "name": "BusinessServiceMasterConfig"
+        }
+      ]
+    }
+  ]
+}

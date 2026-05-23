@@ -1,0 +1,21 @@
+{
+  "tenantId": "pb",
+  "moduleName": "egov-location",
+  "TenantBoundary": [
+    {
+      "hierarchyType": {
+        "code": "REVENUE",
+        "name": "REVENUE"
+      },
+      "boundary": {
+        "id": 1,
+        "name": "Default City",
+        "code": "CITY01",
+        "boundaryType": {
+          "code": "7",
+          "name": "Locality"
+        }
+      }
+    }
+  ]
+}
