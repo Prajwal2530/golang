@@ -1,0 +1,9 @@
+{
+  "tenantId": "pb",
+  "moduleName": "Workflow",
+  "StateLevelServices": [
+    {
+      "service": "BPA"
+    }
+  ]
+}

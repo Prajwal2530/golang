@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Implementation-Title: egov-user
+Implementation-Version: 1.2.8-SNAPSHOT
+Archiver-Version: Plexus Archiver
+Built-By: root
+Implementation-Vendor-Id: org.egov
+Spring-Boot-Version: 1.5.22.RELEASE
+Implementation-Vendor: Pivotal Software, Inc.
+Main-Class: org.springframework.boot.loader.JarLauncher
+Start-Class: org.egov.user.EgovUserApplication
+Spring-Boot-Classes: BOOT-INF/classes/
+Spring-Boot-Lib: BOOT-INF/lib/
+Created-By: Apache Maven 3.9.6
+Build-Jdk: 1.8.0_412
+Implementation-URL: https://projects.spring.io/spring-boot/egov-user/
+

@@ -1,0 +1,20 @@
+{
+  "RequestInfo": {
+    "apiId": "Rainmaker",
+    "ver": ".01",
+    "msgId": ""
+  },
+  "MdmsCriteria": {
+    "tenantId": "pb",
+    "moduleDetails": [
+      {
+        "moduleName": "tenant",
+        "masterDetails": [
+          {
+            "name": "tenants"
+          }
+        ]
+      }
+    ]
+  }
+}

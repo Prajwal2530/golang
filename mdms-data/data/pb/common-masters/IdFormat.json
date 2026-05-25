@@ -1,0 +1,634 @@
+{
+  "tenantId": "pb",
+  "moduleName": "common-masters",
+  "IdFormat": [
+    {
+      "format": "TEST_seq/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON_TEST_AUTOCRE]",
+      "idName": "seq.autocreate.test"
+    },
+    {
+      "format": "BILL-[SEQ_EGOV_COMMON_TEST_AUTOCRE]",
+      "idName": "billnumberid"
+    },
+    {
+      "format": "PB-AS-[cy:yyyy-MM-dd]-[SEQ_EG_PT_ASSM]",
+      "idName": "pt.assessmentnumber"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "watercharges.metered.receipt.id"
+    },
+    {
+      "format": "PT/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "pt.receipt.id"
+    },
+    {
+      "format": "TEST/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON_TEST_56]",
+      "idName": "tl.receipt.id.test"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "watercharges.nonmetered.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "firenoc.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "tx.no_dues_certificate.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "advt.hoardings.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "advt.unipolls.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "rt.municipal_shops_rent.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "rt.land_rent.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "rt.tower_rent.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "rt.parking_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "rt.jamin_theka.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "admn.election_rally_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "admn.parking_during_election.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "admn.road_show.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "fn.advance_provident_fund.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "st.stationary_not_income.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "st.expenditure_santitation_not_income.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ch.santitation_dumping_garbage.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ftp.telecom_tower_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "tx.electricity.code_chungi.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ftp.draftsmen_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ftp.compremasing_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ftp.building_planner_renew.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.naksha_samjota_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.naksha_changes.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ftp.license_fees_building_branch.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.naksha_renew_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.alteration_additional_charge.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.2_year_time_limit_of_renewal_building_naksha.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ftp.leave_encashment_and_gratuty.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ch.plastic_challan.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ch.rehri_challan.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ch.challan_for_misuse_of_water.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ch.dengue_challan.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ch.littering_challan.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "snt.licence_pure_food.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "other.misc_challans.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.regularisation_of_buildings.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "wf.contractor_enlistment.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "wf.tenderformfee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "tb.advertisement_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "tb.tehbazaari.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "fn.pf_transfer_(accounts).receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "tx.ts1_copy_register_for_old_survey.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "tx.transfer_property_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "admn.rti.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "admn.no_dues_certificate.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ftp.architect_license_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "tb.challan_under_section_156.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "fn.grants_cheque.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "other.no_due_certificate_electriCITY.CODE.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "other.registery_and_bank_loan.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ch.sbm_garbage_plastic_polythene_challan.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "snt.dead_animals_contract.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "fn.gpf.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "fn.cpf_received_check.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "rt.tower_installation.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "rt.tower_annual_rent.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "css.cow_cess.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ch.cattle_challan.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "tb.rehri_challan.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "lcf.manual_rikshaw.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ch.dairy_animals_challan.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ch.bidi_&_cigrette_challan.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "rt.community_centre_booking_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "rt.commercial_use_of_municipal_land.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "rt.street_vendor.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ftp.construction_waste.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "ftp.demolition_waste.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "snt.clean_safai_sanitation.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "om.plumber_license_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "advt.light_wala_board.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "advt.wall_paint_advertisement.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "om.water_connection_disconnection_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.noc_completion_of_building_approval.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "fn.recovery_employee_contractor.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "tx.house_tax.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.hadud_certificate_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.no_due_certificate_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.colony_sambandhi_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.naksha_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "wf.ofc_permission_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.economics_weaker_section_scheme_charges.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.economics_weaker_section_projects_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "om.sewerage_disconnection_connection_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "fn.provident_fund_processing_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "css.labor_cess.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "other.others_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "other.water_charges.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.under_development_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.change_of_land_use_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.development_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.malba_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.boundary_wall_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.building_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "om.road_cut_fees.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "admn.parking_booking_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "advt.canopy_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "advt.outdoor_media_display_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "advt.test_munadi_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "tx.property_tax_2013-14.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "other.noc_fee.receipt.id"
+    },
+    {
+      "format": "[cy:MM]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON",
+      "idName": "rev_grants.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "other.fire_tender_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "other.fire_call_report_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "other.fire_noc_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "other.bus_adda_fee.receipt.id"
+    },
+    {
+      "format": "MP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "nks.rain_harvesting_charges.receipt.id"
+    },
+    {
+      "format": "WS/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_WS_CON_[TENANT_ID]]",
+      "idName": "waterservice.connection.id"
+    },
+    {
+      "format": "SW/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_SW_CON_[TENANT_ID]]",
+      "idName": "sewerageservice.connection.id"
+    },
+    {
+      "format": "PB-BPA-[cy:yyyy-MM-dd]-[SEQ_EG_BP_APN]",
+      "idName": "bpa.aplnumber"
+    },
+    {
+      "format": "PB-BPA-[cy:yyyy-MM-dd]-[SEQ_EG_BP_PN]",
+      "idName": "bpa.permitnumber"
+    },
+    {
+      "format": "PB_PG_[cy:yyyy_MM_dd]_[SEQ_EG_PG_TXN]_[d{2}]",
+      "idName": "pg.txnid"
+    },
+    {
+      "format": "[cy:MM]/[fy:yyyy-yy]/[SEQ_COLL_RCPT_NUM]",
+      "idName": "receipt.id"
+    },
+    {
+      "format": "BPAREG/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "bpareg.receipt.id"
+    },
+    {
+      "format": "BPA/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "bpa.nc_app_fee.receipt.id"
+    },
+    {
+      "format": "BPA/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "bpa.nc_san_fee.receipt.id"
+    },
+    {
+      "format": "WS/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_WS_BILL_RCPT_[TENANT_ID]]",
+      "idName": "ws.receipt.id"
+    },
+    {
+      "format": "SW/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_SW_BILL_RCPT_[TENANT_ID]]",
+      "idName": "sw.receipt.id"
+    },
+    {
+      "format": "WS_AP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_WS_APP_[TENANT_ID]]",
+      "idName": "waterservice.application.id"
+    },
+    {
+      "format": "SW_AP/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_SW_APP_[TENANT_ID]]",
+      "idName": "sewerageservice.application.id"
+    },
+    {
+      "format": "PB-MU-[cy:yyyy-MM-dd]-[SEQ_EG_PT_ASSM]",
+      "idName": "pt.mutation.receipt.id"
+    },
+    {
+      "format": "BR/ENG/[cy:yyyy]/[SEQ_EG_PT_LN]",
+      "idName": "egov.idgen.bpa.englicensenumber"
+    },
+    {
+      "format": "BR/STR/[cy:yyyy]/[SEQ_EG_PT_LN]",
+      "idName": "egov.idgen.bpa.strlicensenumber"
+    },
+    {
+      "format": "BR/TP/[cy:yyyy]/[SEQ_EG_PT_LN]",
+      "idName": "egov.idgen.bpa.tplicensenumber"
+    },
+    {
+      "format": "BR/SUP/[cy:yyyy]/[SEQ_EG_PT_LN]",
+      "idName": "egov.idgen.bpa.suplicensenumber"
+    },
+    {
+      "format": "BR/ARCT/[cy:yyyy]/[SEQ_EG_PT_LN]",
+      "idName": "egov.idgen.bpa.arlicensenumber"
+    },
+    {
+      "format": "BR/BLD/[cy:yyyy]/[SEQ_EG_PT_LN]",
+      "idName": "egov.idgen.bpa.bdlicensenumber"
+    },
+    {
+      "format": "PB-MT-[CITY]-[SEQ_EG_PT_MUTATION]",
+      "idName": "pt.mutation.number"
+    },
+    {
+      "format": "WS.ONE_TIME_FEE/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_WS_FEE_RCPT_[TENANT_ID]]",
+      "idName": "ws.one_time_fee.receipt.id"
+    },
+    {
+      "format": "SW.ONE_TIME_FEE/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_SW_FEE_RCPT_[TENANT_ID]]",
+      "idName": "sw.one_time_fee.receipt.id"
+    },
+    {
+      "format": "BPA/OC/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "bpa.nc_oc_app_fee.receipt.id"
+    },
+    {
+      "format": "BPA/OC/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON]",
+      "idName": "bpa.nc_oc_san_fee.receipt.id"
+    },
+    {
+      "format": "PB-NOCSRV-[cy:yyyy-MM-dd]-[SEQ_EG_NOC_APN]",
+      "idName": "noc.application.number"
+    },
+    {
+      "format": "PB-PGR-[cy:yyyy-MM-dd]-[SEQ_EG_PGR_ID]",
+      "idName": "pgr.servicerequestid"
+    },
+    {
+      "format": "FSM/[CITY.CODE]/[fy:yyyy-yy]/[SEQ_EGOV_COMMON[TENANT_ID]]",
+      "idName": "fsm.trip_charges.receipt.id"
+    },
+    {
+      "idName": "bs.amendment.id",
+      "format": "NOTETYPE-CONSUMERCODE-[SEQ_BS_MUTATION_[tenant_id]]"
+    },
+    {
+      "idName": "vehiclelog.aplnumber",
+      "format": "[CITY.CODE]-VT-[cy:yyyy-MM-dd]-[SEQ_EGOV_VEHICLETRIP]"
+    },
+    {
+      "idName": "fsm.aplnumber",
+      "format": "[CITY.CODE]-FSM-[cy:yyyy-MM-dd]-[SEQ_EGOV_FSM]"
+    },
+    {
+      "idName": "echallan.aplnumber",
+      "format": "PB-CH-[cy:yyyy-MM-dd]-[SEQ_EG_CH_APL]"
+    },
+    {
+      "format": "DOC-[cy:yyyy-MM-dd]-[SEQ_EG_DOC_ID]",
+      "idName": "du.documentid"
+    },
+    {
+      "format": "SY-[cy:yyyy-MM-dd]-[SEQ_EG_DOC_ID]",
+      "idName": "ss.surveyid"
+    },
+    {
+      "idName": "bpareg.aplnumber",
+      "format": "PB-SK-[cy:yyyy-MM-dd]-[SEQ_EG_TL_APL]"
+    },
+    {
+      "idName": "bpareg.licensenumber",
+      "format": "PB-SK-[cy:yyyy-MM-dd]-[SEQ_EG_PT_LN]"
+    },
+    {
+      "format": "BR/[CITY.CODE]/[cb.name]/[fy:yyyy]/[SEQ_EGOV_COMMON]",
+      "idName": "birth_cert.receipt.id"
+    },
+    {
+      "format": "DT/[CITY.CODE]/[cb.name]/[fy:yyyy]/[SEQ_EGOV_COMMON]",
+      "idName": "death_cert.receipt.id"
+    }, 
+    {
+      "format": "PB-VTR-[cy:yyyy-MM-dd]-[SEQ_EG_VTR_ID]",
+      "idName": "vtr.registrationid"
+    },
+    {
+      "format": "PB-BTR-[cy:yyyy-MM-dd]-[SEQ_EG_BTR_ID]",
+      "idName": "btr.registrationid"
+    },
+    {
+      "format": "PB-DTR-[cy:yyyy-MM-dd]-[SEQ_EG_DTR_ID]",
+      "idName": "dtr.registrationid"
+    },
+    {
+      "format": "WS_AP/[CITY.CODE]/[fy:yyyy-yy]/DC-[SEQ_WS_APP_[TENANT_ID]]",
+      "idName": "waterservice.disconnection.id"
+    },
+    {
+      "format": "SW_AP/[CITY.CODE]/[fy:yyyy-yy]/DC-[SEQ_SW_APP_[TENANT_ID]]",
+      "idName": "sewerageservice.disconnection.id"
+    },
+    {
+      "format": "PB-DTR-[cy:yyyy-MM-dd]-[SEQ_EG_DTR_ID]",
+      "idName": "anuragpanda-dtr.registrationid"
+    }
+  ]
+}

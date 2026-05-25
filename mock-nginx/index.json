@@ -1,0 +1,25 @@
+{
+  "edcrDetail": [{
+    "status": "Accepted",
+    "appliactionType": "BUILDING_PLAN_SCRUTINY",
+    "applicationSubType": "NEW_CONSTRUCTION",
+    "permitNumber": "",
+    "planDetail": {
+      "virtualBuilding": {
+        "occupancyTypes": [{
+          "type": {
+            "code": "RESIDENTIAL"
+          }
+        }]
+      },
+      "plot": {
+        "area": [1000]
+      },
+      "blocks": [{
+        "building": {
+          "buildingHeight": [10]
+        }
+      }]
+    }
+  }]
+}

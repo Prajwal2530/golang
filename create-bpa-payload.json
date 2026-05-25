@@ -1,0 +1,50 @@
+{
+  "RequestInfo": {
+    "apiId": "Rainmaker", "ver": ".01", "msgId": "",
+    "authToken": "1d9597f1-17d5-4a0a-a77e-eedad49eb646",
+    "userInfo": {
+      "id": 82, "uuid": "a0a07fa3-477a-4f82-900a-ae240f1ffe60",
+      "userName": "admin2", "name": "Admin", "active": true, "tenantId": "pb.amritsar", "type": "EMPLOYEE",
+      "roles": [{"code": "SUPERUSER", "tenantId": "pb.amritsar"}]
+    }
+  },
+  "BPA": {
+    "tenantId": "pb.amritsar",
+    "edcrNumber": "EDCR-AMR-2026-05-24-0001",
+    "workflow": {
+      "action": "INITIATE",
+      "assignes": null,
+      "comments": "Initiating BPA application"
+    },
+    "businessService": "BPA",
+    "applicationType": "BUILDING_PLAN_SCRUTINY",
+    "serviceType": "NEW_CONSTRUCTION",
+    "riskType": "LOW",
+    "landInfo": { "ownershipCategory": "INDIVIDUAL.SINGLEOWNER",
+      "tenantId": "pb.amritsar",
+      "address": {
+        "tenantId": "pb.amritsar",
+        "doorNo": "1",
+        "street": "Test Street",
+        "city": "Amritsar",
+        "locality": {"code": "SUN11", "name": "Amritsar Locality"}
+      },
+      "landUse": [{
+        "landUsageType": "RESIDENTIAL",
+        "occupancyDate": null
+      }],
+      "owners": [{
+        "id": 82,
+        "uuid": "a0a07fa3-477a-4f82-900a-ae240f1ffe60",
+        "userName": "admin2", "name": "Admin", "active": true,
+        "mobileNumber": "9999999998",
+        "tenantId": "pb.amritsar",
+        "type": "EMPLOYEE",
+        "roles": [{"code": "SUPERUSER", "tenantId": "pb.amritsar"}]
+      }]
+    },
+    "additionalDetails": {
+      "applicationType": "BUILDING_PLAN_SCRUTINY"
+    }
+  }
+}

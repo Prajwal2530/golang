@@ -1,0 +1,26 @@
+{
+  "RequestInfo": {
+    "apiId": "Rainmaker",
+    "ver": ".01",
+    "msgId": "",
+    "authToken": "1d9597f1-17d5-4a0a-a77e-eedad49eb646",
+    "userInfo": {
+      "id": 82,
+      "uuid": "a0a07fa3-477a-4f82-900a-ae240f1ffe60",
+      "userName": "admin2",
+      "name": "Admin",
+      "mobileNumber": "9999999998",
+      "emailId": "admin2@pb.gov",
+      "type": "EMPLOYEE",
+      "roles": [
+        {
+          "name": "Super User",
+          "code": "SUPERUSER",
+          "tenantId": "pb"
+        }
+      ],
+      "active": true,
+      "tenantId": "pb"
+    }
+  }
+}

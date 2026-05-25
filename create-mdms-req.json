@@ -1,0 +1,1 @@
+{"RequestInfo":{"apiId":"Rainmaker","ver":".01","msgId":"","authToken":"1d9597f1-17d5-4a0a-a77e-eedad49eb646","userInfo":{"uuid":"a0a07fa3-477a-4f82-900a-ae240f1ffe60","tenantId":"pb","roles":[{"code":"SUPERUSER","tenantId":"pb"}]}},"MdmsCriteria":{"tenantId":"pb","moduleDetails":[{"moduleName":"common-masters","masterDetails":[{"name":"OwnerType"}]}]}}

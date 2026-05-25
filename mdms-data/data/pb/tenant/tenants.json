@@ -17,6 +17,22 @@
         "districtName": "District 01",
         "regionName": "Region 01"
       }
+    },
+    {
+      "code": "pb.amritsar",
+      "name": "Amritsar",
+      "description": "Amritsar City",
+      "logoId": "https://digit-oss.s3.ap-south-1.amazonaws.com/logo.png",
+      "imageId": "https://digit-oss.s3.ap-south-1.amazonaws.com/logo.png",
+      "domainUrl": "localhost",
+      "type": "CITY",
+      "city": {
+        "name": "Amritsar",
+        "code": "AMR",
+        "districtCode": "DIST01",
+        "districtName": "Amritsar District",
+        "regionName": "Punjab"
+      }
     }
   ]
 }

@@ -1,0 +1,20 @@
+{
+  "RequestInfo": {
+    "apiId": "Rainmaker", "ver": ".01", "msgId": "", 
+    "authToken": "1d9597f1-17d5-4a0a-a77e-eedad49eb646",
+    "userInfo": {"uuid": "a0a07fa3-477a-4f82-900a-ae240f1ffe60", "tenantId": "pb",
+      "roles": [{"code": "SUPERUSER", "tenantId": "pb"}]}
+  },
+  "BusinessServices": [{
+    "tenantId": "pb", "businessService": "BPA",
+    "business": "bpa-services", "businessServiceSla": 172800000,
+    "states": [
+      {"sla": null, "state": null, "applicationStatus": null, "docUploadRequired": false, "isStartState": true, "isTerminateState": false, "isStateUpdatable": true,
+        "actions": [{"action": "INITIATE", "nextState": "INITIATED", "roles": ["SUPERUSER"]}]},
+      {"sla": 172800000, "state": "INITIATED", "applicationStatus": "INITIATED", "docUploadRequired": false, "isStartState": false, "isTerminateState": false, "isStateUpdatable": true,
+        "actions": [{"action": "FORWARD", "nextState": "APPROVED", "roles": ["SUPERUSER"]}, {"action": "REJECT", "nextState": "REJECTED", "roles": ["SUPERUSER"]}]},
+      {"sla": null, "state": "APPROVED", "applicationStatus": "APPROVED", "docUploadRequired": false, "isStartState": false, "isTerminateState": true, "isStateUpdatable": false, "actions": []},
+      {"sla": null, "state": "REJECTED", "applicationStatus": "REJECTED", "docUploadRequired": false, "isStartState": false, "isTerminateState": true, "isStateUpdatable": false, "actions": []}
+    ]
+  }]
+}

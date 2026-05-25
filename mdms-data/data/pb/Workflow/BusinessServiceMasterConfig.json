@@ -1,5 +1,10 @@
 {
   "tenantId": "pb",
   "moduleName": "Workflow",
-  "BusinessServiceMasterConfig": []
+  "BusinessServiceMasterConfig": [
+    {
+      "businessService": "BPA",
+      "isStatelevel": "false"
+    }
+  ]
 }

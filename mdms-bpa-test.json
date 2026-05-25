@@ -1,0 +1,23 @@
+{
+  "RequestInfo": {
+    "apiId": "Rainmaker",
+    "ver": ".01",
+    "msgId": ""
+  },
+  "MdmsCriteria": {
+    "tenantId": "pb.amritsar",
+    "moduleDetails": [
+      {
+        "moduleName": "BPA",
+        "masterDetails": [
+          {
+            "name": "ApplicationType"
+          },
+          {
+            "name": "ServiceType"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "tenantId": "pb",
+  "moduleName": "ACCESSCONTROL-ROLES",
+  "roles": [
+    {
+      "code": "SUPERUSER",
+      "name": "Super User",
+      "description": "Super User"
+    },
+    {
+      "code": "CITIZEN",
+      "name": "Citizen",
+      "description": "Citizen"
+    },
+    {
+      "code": "EMPLOYEE",
+      "name": "Employee",
+      "description": "Employee"
+    }
+  ]
+}

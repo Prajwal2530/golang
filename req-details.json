@@ -1,0 +1,21 @@
+{
+  "RequestInfo": {
+    "apiId": "Rainmaker",
+    "ver": ".01",
+    "msgId": "20170310130900|en_IN",
+    "authToken": "1d9597f1-17d5-4a0a-a77e-eedad49eb646",
+    "userInfo": {
+      "id": 82,
+      "uuid": "a0a07fa3-477a-4f82-900a-ae240f1ffe60",
+      "tenantId": "pb.amritsar",
+      "type": "EMPLOYEE",
+      "roles": [
+        {
+          "name": "Super User",
+          "code": "SUPERUSER",
+          "tenantId": "pb.amritsar"
+        }
+      ]
+    }
+  }
+}
