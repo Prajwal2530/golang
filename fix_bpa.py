@@ -1,0 +1,1 @@
+import re; data=open('docker-compose.bpa.yml', encoding='utf-8').read(); data=re.sub(r'(container_name: bpa-service[\s\S]*?JAVA_OPTS:.*?)(\")', r'\1 -Dworkflow.context.path=http://egov-workflow-v2:8080 -Dworkflow.workDir.path=http://egov-workflow-v2:8080\2', data, count=1); open('docker-compose.bpa.yml', 'w', encoding='utf-8').write(data)
