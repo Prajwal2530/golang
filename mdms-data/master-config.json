@@ -1,4 +1,11 @@
 {
+	"egov-location": {
+		"TenantBoundary": {
+			"masterName": "TenantBoundary",
+			"isStateLevel": false,
+			"uniqueKeys": []
+		}
+	},
 	"ACCESSCONTROL-ACTIONS-TEST": {
 		"actions-test": {
 			"masterName": "actions-test",

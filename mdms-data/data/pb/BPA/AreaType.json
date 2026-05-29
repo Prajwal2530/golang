@@ -1,0 +1,26 @@
+{
+  "tenantId": "pb",
+  "moduleName": "BPA",
+  "AreaType": [
+    {
+      "code": "SUN01",
+      "areaType": "URBAN",
+      "active": true
+    },
+    {
+      "code": "SUN04",
+      "areaType": "URBAN",
+      "active": true
+    },
+    {
+      "code": "SUN06",
+      "areaType": "URBAN",
+      "active": true
+    },
+    {
+      "code": "SUN178",
+      "areaType": "URBAN",
+      "active": true
+    }
+  ]
+}

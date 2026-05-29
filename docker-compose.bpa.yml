@@ -230,6 +230,8 @@ services:
       SPRING_FLYWAY_OUT_OF_ORDER: "true"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
       EGOV_MDMS_HOST: "http://egov-mdms-service:8080"
+      MDMS_SERVICE_HOST: "http://egov-mdms-service:8080"
+      IDFORMAT_FROM_MDMS: "false"
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
     healthcheck:
@@ -362,7 +364,7 @@ services:
       EGOV_MDMS_HOST: "http://egov-mdms-service:8080"
       EGOV_MDMS_SEARCH_ENDPOINT: "/egov-mdms-service/v1/_search"
       EGOV_LOCALIZATION_HOST: "http://egov-localization:8080"
-      EGOV_USER_HOST: "http://egov-user:8080"
+      EGOV_USER_HOST: "http://egov-user:8080/"
       EGOV_IDGEN_HOST: "http://egov-idgen:8080"
       EGOV_FILESTORE_HOST: "http://egov-filestore:8080"
       EGOV_STATE_LEVEL_TENANT_ID: "pb"
@@ -516,11 +518,21 @@ services:
       EGOV_MDMS_HOST: "http://egov-mdms-service:8080"
       EGOV_IDGEN_HOST: "http://egov-idgen:8080"
       EGOV_WORKFLOW_HOST: "http://egov-workflow-v2:8080"
+      WORKFLOW_WORKDIR_PATH: "http://egov-workflow-v2:8080"
+      WORKFLOW_CONTEXT_PATH: "http://egov-workflow-v2:8080"
       EGOV_EDCR_HOST: "http://amritsar-dev.egovernments.org:8080"
       EGOV_LANDINFO_HOST: "http://land-services:8080"
       EGOV_LOCATION_HOST: "http://egov-location:8080"
       EGOV_USER_HOST: "http://egov-user:8080"
       EGOV_BILLING_SERVICE_HOST: "http://billing-service:8080"
+      EGOV_BILLINGSERVICE_HOST: "http://billing-service:8080"
+      EGOV_PROPERTY_SERVICE_HOST: "http://egov-mdms-service:8080"
+      EGOV_LOCALIZATION_HOST: "http://egov-localization:8080"
+      NOTIFICATION_URL: "http://egov-notification-sms:8080/"
+      EGOV_UI_APP_HOST: "http://localhost"
+      EGOV_COLLECTION_SERVICE_HOST: "http://collection-services:8080"
+      EGOV_NOC_SERVICE_HOST: "http://noc-services:8080"
+      EGOV_BPA_CALCULATOR_HOST: "http://bpa-calculator:8080"
       STATE_LEVEL_TENANT_ID: pb
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Dspring.flyway.enabled=false"
@@ -552,10 +564,9 @@ services:
       SPRING_FLYWAY_VALIDATE_ON_MIGRATE: "false"
       FLYWAY_VALIDATE_ON_MIGRATE: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
-      EGOV_MDMS_HOST: "http://egov-mdms-service:8080"
       STATE_LEVEL_TENANT_ID: pb
       SERVER_PORT: 8080
-      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.services.egov_mdms.hostname=http://egov-mdms-service:8080/ -Degov.mdms.host=http://egov-mdms-service:8080 -Degov.services.mdms.host=http://egov-mdms-service:8080 -Degov.mdms.search.endpoint=/egov-mdms-service/v1/_search"
     healthcheck:
       test: ["CMD", "true"]
       interval: 20s
@@ -866,7 +877,7 @@ services:
       FLYWAY_VALIDATE_ON_MIGRATE: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
       EGOV_MDMS_HOST: "http://egov-mdms-service:8080"
-      EGOV_BILLING_HOST: "http://billing-service:8080"
+      EGOV_BILLINGSERVICE_HOST: "http://billing-service:8080"
       EGOV_BPA_HOST: "http://bpa-service:8080"
       EGOV_EDCR_HOST: "http://amritsar-dev.egovernments.org:8080"
       EGOV_LANDINFO_HOST: "http://land-services:8080"
