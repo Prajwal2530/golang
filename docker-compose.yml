@@ -13,13 +13,18 @@ services:
     ports:
       - "5432:5432"
     mem_limit: 500m
-    restart: unless-stopped
+    restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres -d egovdb"]
       interval: 10s
       timeout: 5s
       retries: 5
 
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-mdms-service:
     build:
       context: ./DIGIT-OSS/core-services/egov-mdms-service
@@ -41,8 +46,13 @@ services:
     ports:
       - "8094:8094"
     mem_limit: 1000m
-    restart: unless-stopped
+    restart: no
 
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-location:
     build:
       context: ./DIGIT-OSS/core-services/egov-location
@@ -66,4 +76,9 @@ services:
     ports:
       - "8082:8082"
     mem_limit: 1500m
-    restart: unless-stopped
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'

@@ -1,1 +1,15 @@
-{"RequestInfo":{"apiId":"Rainmaker","ver":".01","msgId":"","authToken":""},"user":{"userName":"admin2","active":true,"name":"Admin","mobileNumber":"9999999998","emailId":"admin2@pb.gov","type":"EMPLOYEE","tenantId":"pb","password":"Admin@123","roles":[{"code":"SUPERUSER","name":"Super User","tenantId":"pb"}]}}
+{
+    "RequestInfo": {
+      "authToken": "5a0b3170-33b7-4406-acde-c2e144172d9e"
+    },
+    "tenantId": "pb",
+    "module": "rainmaker-common",
+    "locale": "en_IN",
+    "messages": [
+      {"code": "CORE_COMMON_LOGIN", "message": "Login", "module": "rainmaker-common", "locale": "en_IN"},
+      {"code": "CORE_LOGIN_USERNAME", "message": "Username", "module": "rainmaker-common", "locale": "en_IN"},
+      {"code": "CORE_LOGIN_PASSWORD", "message": "Password", "module": "rainmaker-common", "locale": "en_IN"},
+      {"code": "CORE_COMMON_FORGOT_PASSWORD", "message": "Forgot Password?", "module": "rainmaker-common", "locale": "en_IN"},
+      {"code": "TENANT_TENANTS_PB", "message": "Punjab", "module": "digit-tenants", "locale": "en_IN"}
+    ]
+  }

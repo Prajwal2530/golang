@@ -6,6 +6,16 @@
       "roles": [{"code": "SUPERUSER", "tenantId": "pb"}]}
   },
   "BusinessServices": [{
+    "tenantId": "pb.amritsar", "businessService": "BPA_OC",
+    "business": "bpa-services", "businessServiceSla": 172800000,
+    "states": [
+      {"sla": null, "state": null, "applicationStatus": null, "docUploadRequired": false, "isStartState": true, "isTerminateState": false, "isStateUpdatable": true,
+        "actions": [{"action": "INITIATE", "nextState": "INITIATED", "roles": ["BPA_BUILDER", "BPA_ARCHITECT", "CITIZEN"]}]},
+      {"sla": null, "state": "INITIATED", "applicationStatus": "INITIATED", "docUploadRequired": false, "isStartState": false, "isTerminateState": false, "isStateUpdatable": true,
+        "actions": [{"action": "APPROVE", "nextState": "APPROVED", "roles": ["BPA_VERIFIER"]}]},
+      {"sla": null, "state": "APPROVED", "applicationStatus": "APPROVED", "docUploadRequired": false, "isStartState": false, "isTerminateState": true, "isStateUpdatable": false}
+    ]
+  }, {
     "tenantId": "pb.amritsar", "businessService": "BPA",
     "business": "bpa-services", "businessServiceSla": 172800000,
     "states": [

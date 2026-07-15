@@ -1,25 +1,25 @@
 {
   "RequestInfo": {
     "apiId": "Rainmaker", "ver": ".01", "msgId": "",
-    "authToken": "1d9597f1-17d5-4a0a-a77e-eedad49eb646",
+    "authToken": "",
     "userInfo": {
-      "id": 82, "uuid": "a0a07fa3-477a-4f82-900a-ae240f1ffe60",
+      "id": 82, "uuid": "20a8cc29-b4d5-45f7-ae10-d973b01de2b7",
       "userName": "admin2", "name": "Admin", "active": true, "tenantId": "pb.amritsar", "type": "EMPLOYEE",
-      "roles": [{"code": "SUPERUSER", "tenantId": "pb.amritsar"}]
+      "roles": [{"code": "SUPERUSER", "tenantId": "pb.amritsar"}, {"code": "BPA_BUILDER", "tenantId": "pb.amritsar"}]
     }
   },
   "BPA": {
     "tenantId": "pb.amritsar",
-    "edcrNumber": "EDCR-AMR-2026-05-24-0001",
+    "edcrNumber": "PL-2024-1234",
     "workflow": {
       "action": "INITIATE",
       "assignes": null,
       "comments": "Initiating BPA application"
     },
     "businessService": "BPA",
-    "applicationType": "BUILDING_PLAN_SCRUTINY",
+    "applicationType": "permit",
     "serviceType": "NEW_CONSTRUCTION",
-    "riskType": "LOW",
+    "riskType": "HIGH",
     "landInfo": { "ownershipCategory": "INDIVIDUAL.SINGLEOWNER",
       "tenantId": "pb.amritsar",
       "address": {
@@ -27,24 +27,22 @@
         "doorNo": "1",
         "street": "Test Street",
         "city": "Amritsar",
-        "locality": {"code": "SUN11", "name": "Amritsar Locality"}
+        "locality": {"code": "SUN178", "name": "Amritsar Locality"}
       },
       "landUse": [{
         "landUsageType": "RESIDENTIAL",
         "occupancyDate": null
       }],
       "owners": [{
-        "id": 82,
-        "uuid": "a0a07fa3-477a-4f82-900a-ae240f1ffe60",
-        "userName": "admin2", "name": "Admin", "active": true,
-        "mobileNumber": "9999999998",
+        "name": "Admin", "active": true,
+        "mobileNumber": "9893212347",
         "tenantId": "pb.amritsar",
         "type": "EMPLOYEE",
         "roles": [{"code": "SUPERUSER", "tenantId": "pb.amritsar"}]
       }]
     },
     "additionalDetails": {
-      "applicationType": "BUILDING_PLAN_SCRUTINY"
+      "applicationType": "permit"
     }
   }
 }

@@ -1,0 +1,192 @@
+<!doctype html><html lang="en"><head><script>window.Digit=window.Digit||{};window.Digit.Config={stateCode:"pb"};window.globalConfigs={getConfig:function(e){switch(e){case"STATE_LEVEL_TENANT_ID":return"pb";case"TENANT_ID":return"pb";case"CONTEXT_PATH":return"digit-ui";case"MDMS_CONTEXT_PATH":return"egov-mdms-service";case"MDMS_V1_CONTEXT_PATH":return"egov-mdms-service";case"MDMS_V2_CONTEXT_PATH":return"egov-mdms-service";case"HRMS_CONTEXT_PATH":return"egov-hrms";case"PROJECT_CONTEXT_PATH":return"project-service";case"INDIVIDUAL_SERVICE_CONTEXT_PATH":return"individual-service";case"UICONFIG_MODULENAME":return"HCMUIConfig";case"ENABLE_SINGLEINSTANCE":return"false";case"OTP_BASED_LOGIN":return"false";case"MULTI_ROOT_TENANT":return"false";case"ROLE_BASED_HOMECARD":return"false";case"LOCALE_DEFAULT":return"en_IN";case"LOCALE_REGION":return"IN";case"BOUNDARY_CONTEXT":return"egov-location";case"BOUNDARY_TYPE":return"revenue";case"HIERARCHY_TYPE":return"REVENUE";case"PGR_BOUNDARY_HIGHEST_LEVEL":return"District";case"PGR_BOUNDARY_LOWEST_LEVEL":return"Locality";case"MAP_CENTER_LAT_LNG":return"30.9009,76.549";case"GMAPS_API_KEY":return"";case"JWT_TOKEN":return"";case"INVALIDROLES":return"[]";case"SVG_HEADER_SECONDARY_LOGO_URL":return"";case"CORE_MOBILE_CONFIGS":return null;default:return undefined}}};</script><meta charset="utf-8"/><link rel="icon" href="https://egov-dev-assets.s3.ap-south-1.amazonaws.com/browser-icon.png"/><link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet"/><link rel="stylesheet" href="https://unpkg.com/@egovernments/digit-ui-components-css@0.2.0-beta.14/dist/index.css"/><link rel="stylesheet" href="https://unpkg.com/@egovernments/digit-ui-health-css@0.2.113/dist/index.css"/><link rel="stylesheet" href="https://unpkg.com/@egovernments/digit-ui-css@1.8.37/dist/index.css"/><meta name="viewport" content="width=device-width,initial-scale=1"/><meta name="theme-color" content="#00bcd1"/><title>DIGIT</title><script>// Workaround for @egovernments/digit-ui-components Dropdown bug.
+    // The Dropdown component runs a mount-time useEffect that calls
+    // `scrollIntoView({behavior:"smooth",block:"center",inline:"center"})` on
+    // itself whenever its bounding rect sits outside the viewport. On tall
+    // forms the dropdowns below the fold each scroll the page downward on
+    // first paint — the last one wins. We monkey-patch
+    // Element.prototype.scrollIntoView to no-op only when (a) the target
+    // element is a Dropdown root (identified by class) AND (b) the current
+    // page is one of the known-affected PGR pages. Every other page and
+    // every other scrollIntoView call passes through unchanged.
+    (function () {
+      var orig = Element.prototype.scrollIntoView;
+      var DROPDOWN_CLASS = /(^|\s)(digit-dropdown-employee-select-wrap|digit-dropdown-select-wrap)(\s|$)/;
+      function isAffectedPage() {
+        var p = location.pathname;
+        return /\/employee\/pgr\/complaint\/create(\/|$)/.test(p)
+            || /\/employee\/pgr\/inbox(\/|$)/.test(p);
+      }
+      Element.prototype.scrollIntoView = function () {
+        var cls = this && typeof this.className === "string" ? this.className : "";
+        if (DROPDOWN_CLASS.test(cls) && isAffectedPage()) return;
+        return orig.apply(this, arguments);
+      };
+    })();</script><script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script><script>// DOM Override for Profile Page
+    (function () {
+      setInterval(function () {
+        if (window.location.href.indexOf("/employee/user/profile") > -1) {
+          var mobileConfig = window.globalConfigs && window.globalConfigs.getConfig("CORE_MOBILE_CONFIGS");
+          if (mobileConfig && mobileConfig.mobilePrefix) {
+            var prefixEls = document.querySelectorAll(".digit-prefix");
+            prefixEls.forEach(function (el) {
+              if (el.innerText.trim() !== mobileConfig.mobilePrefix) {
+                el.innerText = mobileConfig.mobilePrefix;
+              }
+            });
+          }
+        }
+      }, 500);
+    })();</script><style>.digit-inbox-search-composer-label-pair .digit-employee-select-wrap {
+      margin-top: -0.5rem !important;
+    }
+
+    /* Align label and input field horizontally on desktop - Only for user profile page */
+    @media (min-width: 768px) {
+      .user-profile .digit-label-field-pair {
+        display: flex !important;
+        align-items: center !important;
+        gap: 1rem !important;
+        padding-left: 1.5rem !important;
+      }
+
+      .user-profile .digit-label-field-pair .digit-card-label {
+        margin: 0 !important;
+        min-width: 150px !important;
+        flex-shrink: 0 !important;
+      }
+
+      /* Add padding to save button on desktop */
+      .user-profile button[style*="margin-top: 24px"] {
+        margin-left: 1.5rem !important;
+      }
+    }
+
+    /* Stack vertically on mobile - Only for user profile page */
+    @media (max-width: 767px) {
+      .user-profile .digit-label-field-pair {
+        display: block !important;
+        padding-left: 1rem !important;
+      }
+
+      .user-profile .digit-label-field-pair .digit-card-label {
+        margin-bottom: 0.5rem !important;
+      }
+
+      /* Add padding to save button on mobile */
+      .user-profile button[style*="margin-top: 24px"] {
+        margin-left: 1rem !important;
+      }
+    }
+
+    .digit-label-field-pair.boundary-filter-label-left-align {
+      display: block !important;
+
+      .digit-header-content.label {
+        display: none !important;
+      }
+
+      .digit-field {
+        width: 100% !important;
+
+        .selecting-boundary-div {
+          .boundary-item {
+            margin-bottom: 24px !important;
+            display: flex !important;
+            flex-direction: row !important;
+            align-items: flex-start !important;
+            gap: clamp(1rem, 2.5vw, 2rem) !important;
+
+            h2.boundary-selection-label {
+              margin: 0 !important;
+              width: 32.33% !important;
+              padding: 0 !important;
+              font-family: Roboto !important;
+              font-style: normal !important;
+              font-size: 1rem !important;
+              font-weight: 400 !important;
+              line-height: 1.37rem !important;
+              color: #363636 !important;
+              margin-bottom: 0px !important;
+              overflow: hidden !important;
+              white-space: nowrap !important;
+              text-overflow: ellipsis !important;
+            }
+
+            .digit-field-full {
+              width: auto !important;
+              flex: 1 !important;
+              min-width: 0 !important;
+
+              .padding-dropdown {
+                border-color: #505a5f !important;
+                max-width: clamp(20rem, 50vw, 37.5rem) !important;
+                padding: 0rem 0.1rem 0rem 0.1rem !important;
+                display: flex !important;
+                justify-content: flex-start !important;
+
+                .digit-dropdown-employee-select-wrap {
+                  width: 100% !important;
+
+                  @media (min-aspect-ratio: 3/4) {
+                    max-width: 37.5rem;
+                  }
+
+                  .digit-dropdown-select {
+                    width: 100% !important;
+                    max-width: 37.5rem !important;
+
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .success-wrap header,
+    .error-wrap header {
+      color: #ffffff !important;
+    }
+
+    .digit-header-content.label .label-container {
+      display: -webkit-box;
+      display: -ms-flexbox;
+      display: flex;
+      -webkit-box-align: center;
+      -ms-flex-align: center;
+      align-items: center;
+      width: 100%;
+      grid-gap: .25rem;
+      gap: .25rem;
+    }
+
+    .checkbox-wrap .input-emp {
+      width: 24px;
+      height: 24px;
+    }
+
+    .checkbox-wrap .custom-checkbox,
+    .checkbox-wrap .custom-checkbox-emp {
+      width: 24px;
+      height: 24px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      --border-opacity: 1;
+      border: 1px solid #464646;
+      border-color: rgba(70, 70, 70, var(--border-opacity));
+      z-index: 0;
+    }
+
+    /* Hide back button in citizen all services page but keep the space */
+    .citizen-all-services-wrapper .digit-back-link {
+      visibility: hidden !important;
+    }
+
+    /* Bugfix: Override external CSS forcing Inbox sidebar icon to white */
+    @media (min-width: 780px) {
+      .employeeCard.filter.inboxLinks .complaint-links-container .header .logo svg path {
+        fill: #ffffff !important;
+      }
+    }</style></head><body><noscript>You need to enable JavaScript to run this app.</noscript><div id="root"></div><script src="/digit-ui/vendors~main~32186018.bundle.js"></script><script src="/digit-ui/vendors~main~d5084b43.bundle.js"></script><script src="/digit-ui/vendors~main~8c20f6dd.bundle.js"></script><script src="/digit-ui/vendors~main~49d400bf.bundle.js"></script><script src="/digit-ui/vendors~main~b8008964.bundle.js"></script><script src="/digit-ui/vendors~main~227a6142.bundle.js"></script><script src="/digit-ui/vendors~main~ae704e4c.bundle.js"></script><script src="/digit-ui/vendors~main~f427489e.bundle.js"></script><script src="/digit-ui/vendors~main~c7186305.bundle.js"></script><script src="/digit-ui/vendors~main~559b24bd.bundle.js"></script><script src="/digit-ui/vendors~main~b0f85eb9.bundle.js"></script><script src="/digit-ui/vendors~main~137154c3.bundle.js"></script><script src="/digit-ui/vendors~main~4bd5b6e4.bundle.js"></script><script src="/digit-ui/vendors~main~31348c11.bundle.js"></script><script src="/digit-ui/vendors~main~86c05981.bundle.js"></script><script src="/digit-ui/vendors~main~a94c83fb.bundle.js"></script><script src="/digit-ui/vendors~main~f74533ba.bundle.js"></script><script src="/digit-ui/vendors~main~3ae1d1b8.bundle.js"></script><script src="/digit-ui/vendors~main~edb7c69c.bundle.js"></script><script src="/digit-ui/vendors~main~fc5e762f.bundle.js"></script><script src="/digit-ui/vendors~main~937c8890.bundle.js"></script><script src="/digit-ui/vendors~main~ac2f7817.bundle.js"></script><script src="/digit-ui/vendors~main~3a440bfc.bundle.js"></script><script src="/digit-ui/vendors~main~db4f1d11.bundle.js"></script><script src="/digit-ui/vendors~main~5102b815.bundle.js"></script><script src="/digit-ui/vendors~main~4e2fff93.bundle.js"></script><script src="/digit-ui/vendors~main~a1d5a092.bundle.js"></script><script src="/digit-ui/vendors~main~5d7576f3.bundle.js"></script><script src="/digit-ui/vendors~main~a8daa456.bundle.js"></script><script src="/digit-ui/vendors~main~d091571d.bundle.js"></script><script src="/digit-ui/vendors~main~baf6affd.bundle.js"></script><script src="/digit-ui/vendors~main~e9b83c02.bundle.js"></script><script src="/digit-ui/vendors~main~eeeaf4c3.bundle.js"></script><script src="/digit-ui/vendors~main~e7dbff17.bundle.js"></script><script src="/digit-ui/vendors~main~3faa79da.bundle.js"></script><script src="/digit-ui/vendors~main~1ad7f6cc.bundle.js"></script><script src="/digit-ui/vendors~main~031fdc04.bundle.js"></script><script src="/digit-ui/vendors~main~410ebddc.bundle.js"></script><script src="/digit-ui/vendors~main~8bf58498.bundle.js"></script><script src="/digit-ui/vendors~main~054a96f2.bundle.js"></script><script src="/digit-ui/vendors~main~3dbe2de0.bundle.js"></script><script src="/digit-ui/vendors~main~39e395d6.bundle.js"></script><script src="/digit-ui/vendors~main~41a72b01.bundle.js"></script><script src="/digit-ui/vendors~main~79544394.bundle.js"></script><script src="/digit-ui/vendors~main~af7dc37e.bundle.js"></script><script src="/digit-ui/vendors~main~558c21cf.bundle.js"></script><script src="/digit-ui/vendors~main~8dc9aef5.bundle.js"></script><script src="/digit-ui/vendors~main~f8a3eeb2.bundle.js"></script><script src="/digit-ui/vendors~main~5bc41acf.bundle.js"></script><script src="/digit-ui/vendors~main~8a6c828a.bundle.js"></script><script src="/digit-ui/vendors~main~2d9c0ea1.bundle.js"></script><script src="/digit-ui/vendors~main~a8933912.bundle.js"></script><script src="/digit-ui/vendors~main~9326b498.bundle.js"></script><script src="/digit-ui/vendors~main~1774b48a.bundle.js"></script><script src="/digit-ui/vendors~main~9ba412a3.bundle.js"></script><script src="/digit-ui/vendors~main~17d00da5.bundle.js"></script><script src="/digit-ui/vendors~main~fe2575ee.bundle.js"></script><script src="/digit-ui/vendors~main~fdd5d201.bundle.js"></script><script src="/digit-ui/vendors~main~8be13e61.bundle.js"></script><script src="/digit-ui/vendors~main~d0d9a153.bundle.js"></script><script src="/digit-ui/vendors~main~934d7a60.bundle.js"></script><script src="/digit-ui/vendors~main~aa9e5cb8.bundle.js"></script><script src="/digit-ui/vendors~main~3a59302d.bundle.js"></script><script src="/digit-ui/vendors~main~ceda621c.bundle.js"></script><script src="/digit-ui/vendors~main~26d59519.bundle.js"></script><script src="/digit-ui/vendors~main~a5866077.bundle.js"></script><script src="/digit-ui/vendors~main~71202f31.bundle.js"></script><script src="/digit-ui/vendors~main~e4173fa2.bundle.js"></script><script src="/digit-ui/vendors~main~7274e1de.bundle.js"></script><script src="/digit-ui/vendors~main~0fa8f174.bundle.js"></script><script src="/digit-ui/vendors~main~b5906859.bundle.js"></script><script src="/digit-ui/vendors~main~c0ce2459.bundle.js"></script><script src="/digit-ui/vendors~main~4e44fb25.bundle.js"></script><script src="/digit-ui/vendors~main~f5ae4ff7.bundle.js"></script><script src="/digit-ui/vendors~main~503bfda7.bundle.js"></script><script src="/digit-ui/vendors~main~de8cd8b9.bundle.js"></script><script src="/digit-ui/vendors~main~7a3b410e.bundle.js"></script><script src="/digit-ui/vendors~main~d3a0f6cb.bundle.js"></script><script src="/digit-ui/vendors~main~bf1a927b.bundle.js"></script><script src="/digit-ui/vendors~main~3e940a3b.bundle.js"></script><script src="/digit-ui/vendors~main~716eb4a8.bundle.js"></script><script src="/digit-ui/vendors~main~786f3ad8.bundle.js"></script><script src="/digit-ui/vendors~main~484d44d1.bundle.js"></script><script src="/digit-ui/vendors~main~418d4e86.bundle.js"></script><script src="/digit-ui/vendors~main~8a33c0da.bundle.js"></script><script src="/digit-ui/vendors~main~a5067f81.bundle.js"></script><script src="/digit-ui/vendors~main~e6cb44cf.bundle.js"></script><script src="/digit-ui/vendors~main~f2ff9231.bundle.js"></script><script src="/digit-ui/vendors~main~72f93981.bundle.js"></script><script src="/digit-ui/vendors~main~3935101d.bundle.js"></script><script src="/digit-ui/vendors~main~0b2cf4eb.bundle.js"></script><script src="/digit-ui/vendors~main~103a38b9.bundle.js"></script><script src="/digit-ui/vendors~main~203e0718.bundle.js"></script><script src="/digit-ui/vendors~main~a944c9b4.bundle.js"></script><script src="/digit-ui/vendors~main~73914085.bundle.js"></script><script src="/digit-ui/vendors~main~cbc997cd.bundle.js"></script><script src="/digit-ui/vendors~main~7d359b94.bundle.js"></script><script src="/digit-ui/vendors~main~d028300f.bundle.js"></script><script src="/digit-ui/vendors~main~844a1b5d.bundle.js"></script><script src="/digit-ui/vendors~main~491f3f89.bundle.js"></script><script src="/digit-ui/vendors~main~2cd29c0c.bundle.js"></script><script src="/digit-ui/vendors~main~4a414dd9.bundle.js"></script><script src="/digit-ui/vendors~main~2cab73c8.bundle.js"></script><script src="/digit-ui/vendors~main~88bafa3c.bundle.js"></script><script src="/digit-ui/vendors~main~1d6b9d23.bundle.js"></script><script src="/digit-ui/vendors~main~fa4e4665.bundle.js"></script><script src="/digit-ui/vendors~main~e5a947e2.bundle.js"></script><script src="/digit-ui/vendors~main~b25811fe.bundle.js"></script><script src="/digit-ui/vendors~main~52f60eb0.bundle.js"></script><script src="/digit-ui/vendors~main~49aea2b3.bundle.js"></script><script src="/digit-ui/vendors~main~ef41839a.bundle.js"></script><script src="/digit-ui/vendors~main~6919f23e.bundle.js"></script><script src="/digit-ui/vendors~main~1ccf8e8a.bundle.js"></script><script src="/digit-ui/vendors~main~b92ffc84.bundle.js"></script><script src="/digit-ui/vendors~main~749fad12.bundle.js"></script><script src="/digit-ui/vendors~main~9aff6373.bundle.js"></script><script src="/digit-ui/vendors~main~72d5a7e6.bundle.js"></script><script src="/digit-ui/vendors~main~3c64f844.bundle.js"></script><script src="/digit-ui/vendors~main~77bf5e45.bundle.js"></script><script src="/digit-ui/vendors~main~57473a66.bundle.js"></script><script src="/digit-ui/vendors~main~9c5b28f6.bundle.js"></script><script src="/digit-ui/vendors~main~4180eec1.bundle.js"></script><script src="/digit-ui/vendors~main~1704df41.bundle.js"></script><script src="/digit-ui/vendors~main~3af8bccc.bundle.js"></script><script src="/digit-ui/vendors~main~1819f8e5.bundle.js"></script><script src="/digit-ui/vendors~main~9b5d7fcf.bundle.js"></script><script src="/digit-ui/vendors~main~4b106089.bundle.js"></script><script src="/digit-ui/vendors~main~bc261e74.bundle.js"></script><script src="/digit-ui/vendors~main~678f84af.bundle.js"></script><script src="/digit-ui/vendors~main~f734b0c6.bundle.js"></script><script src="/digit-ui/vendors~main~10e2e882.bundle.js"></script><script src="/digit-ui/vendors~main~eea6b47e.bundle.js"></script><script src="/digit-ui/vendors~main~ac17afc9.bundle.js"></script><script src="/digit-ui/vendors~main~0524fffa.bundle.js"></script><script src="/digit-ui/vendors~main~e5030af0.bundle.js"></script><script src="/digit-ui/vendors~main~74aa85af.bundle.js"></script><script src="/digit-ui/vendors~main~419b4243.bundle.js"></script><script src="/digit-ui/vendors~main~48a6c2f8.bundle.js"></script><script src="/digit-ui/vendors~main~a6080302.bundle.js"></script><script src="/digit-ui/vendors~main~4a3f5d7a.bundle.js"></script><script src="/digit-ui/vendors~main~874ae94c.bundle.js"></script><script src="/digit-ui/vendors~main~292fcef9.bundle.js"></script><script src="/digit-ui/vendors~main~049dcbb3.bundle.js"></script><script src="/digit-ui/vendors~main~2b08fbea.bundle.js"></script><script src="/digit-ui/vendors~main~80653990.bundle.js"></script><script src="/digit-ui/vendors~main~6ae0a8a7.bundle.js"></script><script src="/digit-ui/vendors~main~f76ec155.bundle.js"></script><script src="/digit-ui/vendors~main~aa844d34.bundle.js"></script><script src="/digit-ui/vendors~main~25891710.bundle.js"></script><script src="/digit-ui/vendors~main~fa212fc4.bundle.js"></script><script src="/digit-ui/vendors~main~0928ebd2.bundle.js"></script><script src="/digit-ui/vendors~main~1cba9927.bundle.js"></script><script src="/digit-ui/vendors~main~feca55ca.bundle.js"></script><script src="/digit-ui/vendors~main~1eebee49.bundle.js"></script><script src="/digit-ui/vendors~main~6ba31390.bundle.js"></script><script src="/digit-ui/vendors~main~98431bb7.bundle.js"></script><script src="/digit-ui/vendors~main~382f5786.bundle.js"></script><script src="/digit-ui/vendors~main~6476476d.bundle.js"></script><script src="/digit-ui/vendors~main~f2ec3015.bundle.js"></script><script src="/digit-ui/vendors~main~4d7a786f.bundle.js"></script><script src="/digit-ui/vendors~main~c7d5e8d2.bundle.js"></script><script src="/digit-ui/vendors~main~3a7c4578.bundle.js"></script><script src="/digit-ui/vendors~main~ad6de009.bundle.js"></script><script src="/digit-ui/vendors~main~11cd5f67.bundle.js"></script><script src="/digit-ui/vendors~main~564ee150.bundle.js"></script><script src="/digit-ui/vendors~main~61fe0ee0.bundle.js"></script><script src="/digit-ui/vendors~main~5aada3a7.bundle.js"></script><script src="/digit-ui/vendors~main~25dfa272.bundle.js"></script><script src="/digit-ui/vendors~main~a3e56ee6.bundle.js"></script><script src="/digit-ui/vendors~main~ec8c427e.bundle.js"></script><script src="/digit-ui/vendors~main~fd108ab4.bundle.js"></script><script src="/digit-ui/vendors~main~1c3a2c3f.bundle.js"></script><script src="/digit-ui/vendors~main~cfbf0a2e.bundle.js"></script><script src="/digit-ui/vendors~main~516f681d.bundle.js"></script><script src="/digit-ui/vendors~main~fdc6512a.bundle.js"></script><script src="/digit-ui/vendors~main~8b33879e.bundle.js"></script><script src="/digit-ui/vendors~main~1a593f04.bundle.js"></script><script src="/digit-ui/vendors~main~e806364e.bundle.js"></script><script src="/digit-ui/vendors~main~b916e1a4.bundle.js"></script><script src="/digit-ui/vendors~main~11d8e5e1.bundle.js"></script><script src="/digit-ui/vendors~main~002178ef.bundle.js"></script><script src="/digit-ui/vendors~main~f94d74aa.bundle.js"></script><script src="/digit-ui/vendors~main~24017ff8.bundle.js"></script><script src="/digit-ui/vendors~main~86a944cc.bundle.js"></script><script src="/digit-ui/vendors~main~3b5da738.bundle.js"></script><script src="/digit-ui/vendors~main~c89a7144.bundle.js"></script><script src="/digit-ui/main~748942c6.bundle.js"></script><script src="/digit-ui/main~e599f9bd.bundle.js"></script></body></html>

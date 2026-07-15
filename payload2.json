@@ -1,1 +1,21 @@
-{"RequestInfo":{"apiId":"Rainmaker","ver":".01","action":"_search","msgId":"","authToken":""},"BPASearchCriteria":{"tenantId":"pb"}}
+{
+    "RequestInfo": {
+      "userInfo": {
+        "id": "1",
+        "uuid": "12345-67890",
+        "type": "EMPLOYEE",
+        "roles": [{"name": "Superuser", "code": "SUPERUSER", "tenantId": "pb"}],
+        "tenantId": "pb"
+      }
+    },
+    "tenantId": "pb",
+    "module": "rainmaker-common",
+    "locale": "en_IN",
+    "messages": [
+      {"code": "CORE_COMMON_LOGIN", "message": "Login", "module": "rainmaker-common", "locale": "en_IN"},
+      {"code": "CORE_LOGIN_USERNAME", "message": "Username", "module": "rainmaker-common", "locale": "en_IN"},
+      {"code": "CORE_LOGIN_PASSWORD", "message": "Password", "module": "rainmaker-common", "locale": "en_IN"},
+      {"code": "CORE_COMMON_FORGOT_PASSWORD", "message": "Forgot Password?", "module": "rainmaker-common", "locale": "en_IN"},
+      {"code": "TENANT_TENANTS_PB", "message": "Punjab", "module": "digit-tenants", "locale": "en_IN"}
+    ]
+}

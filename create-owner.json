@@ -1,0 +1,27 @@
+{
+  "requestInfo": {
+    "apiId": "Rainmaker",
+    "ver": ".01",
+    "action": "",
+    "did": "1",
+    "key": "",
+    "msgId": "20170310130900|en_IN",
+    "requesterId": "",
+    "authToken": "1d9597f1-17d5-4a0a-a77e-eedad49eb646"
+  },
+  "user": {
+    "tenantId": "pb.amritsar",
+    "name": "Prajwal",
+    "username": "9893212346",
+    "password": "Password@123",
+    "mobileNumber": "9893212346",
+    "active": true,
+    "type": "CITIZEN",
+    "roles": [
+      {
+        "code": "CITIZEN",
+        "tenantId": "pb.amritsar"
+      }
+    ]
+  }
+}

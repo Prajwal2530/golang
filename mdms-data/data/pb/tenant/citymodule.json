@@ -1,0 +1,51 @@
+{
+  "tenantId": "pb",
+  "moduleName": "tenant",
+  "citymodule": [
+    {
+      "module": "PGR",
+      "code": "PGR",
+      "tenants": [
+        {
+          "code": "pb.amritsar"
+        }
+      ]
+    },
+    {
+      "module": "PT",
+      "code": "PT",
+      "tenants": [
+        {
+          "code": "pb.amritsar"
+        }
+      ]
+    },
+    {
+      "module": "OBPS",
+      "code": "OBPS",
+      "tenants": [
+        {
+          "code": "pb.amritsar"
+        }
+      ]
+    },
+    {
+      "module": "BPA",
+      "code": "BPA",
+      "tenants": [
+        {
+          "code": "pb.amritsar"
+        }
+      ]
+    },
+    {
+      "module": "BPAREG",
+      "code": "BPAREG",
+      "tenants": [
+        {
+          "code": "pb.amritsar"
+        }
+      ]
+    }
+  ]
+}

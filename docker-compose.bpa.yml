@@ -10,10 +10,10 @@ volumes:
   bpa-kafka-data:
   bpa-filestore-data:
 
-    # ─── reusable anchors ────────────────────────────────────────────────────────
+    #  reusable anchors 
 x-spring-base: &spring-base
   restart: on-failure
-  networks: [ bpa-network ]
+  networks: [bpa-network]
   deploy:
     resources:
       limits:
@@ -25,19 +25,19 @@ x-spring-base: &spring-base
 x-spring-db: &spring-db
   <<: *spring-base
   depends_on:
-    bpa-postgres: { condition: service_healthy }
-    bpa-kafka: { condition: service_healthy }
+    bpa-postgres: {condition: service_healthy}
+    bpa-kafka: {condition: service_healthy}
 
 services:
-  # ═══════════════════════════════════════════════════════════════════════════
+  # 
   # INFRA
-  # ═══════════════════════════════════════════════════════════════════════════
+  # 
   bpa-postgres:
     image: postgres:13-alpine
     container_name: bpa-postgres
     command: postgres -c max_connections=300
-    restart: unless-stopped
-    networks: [ bpa-network ]
+    restart: always
+    networks: [bpa-network]
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
@@ -52,16 +52,21 @@ services:
           cpus: "1.0"
           memory: 512M
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 5s
       timeout: 3s
       retries: 20
 
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   bpa-kafka:
     image: apache/kafka:3.7.0
     container_name: bpa-kafka
-    restart: unless-stopped
-    networks: [ bpa-network ]
+    restart: always
+    networks: [bpa-network]
     environment:
       CLUSTER_ID: "bpa6g3nShT-eMCtK--X86bpa"
       KAFKA_NODE_ID: "1"
@@ -87,16 +92,22 @@ services:
           cpus: "1.0"
           memory: 768M
     healthcheck:
-      test: [ "CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server localhost:9092 > /dev/null 2>&1" ]
+      test: ["CMD-SHELL", "/opt/kafka/bin/kafka-broker-api-versions.sh --bootstrap-server
+            localhost:9092 > /dev/null 2>&1"]
       interval: 15s
       timeout: 10s
       retries: 10
       start_period: 30s
 
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   bpa-redis:
     image: redis:7-alpine
     container_name: bpa-redis
-    restart: unless-stopped
+    restart: always
     networks: [bpa-network]
     healthcheck:
       test: ["CMD", "redis-cli", "ping"]
@@ -104,9 +115,14 @@ services:
       timeout: 3s
       retries: 10
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # CORE — TIER 1
-  # ═══════════════════════════════════════════════════════════════════════════
+  # 
+  # CORE  TIER 1
+  # 
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-mdms-service:
     <<: *spring-db
     image: egovio/egov-mdms-service:v2.9.2-4a60f20
@@ -117,15 +133,23 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
       SERVER_PORT: "8080"
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     volumes:
       - ./mdms-data:/work-dir:ro
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/egov-mdms-service/health || exit 1" ]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/egov-mdms-service/health
+            || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-persister:
     <<: *spring-db
     image: egovio/egov-persister:v2.9.2-4a60f20
@@ -144,15 +168,23 @@ services:
       EGOV_PERSIST_YML_REPO_PATH: "/work-dir/persister-config/"
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     volumes:
       - ./configs/egov-persister:/work-dir/persister-config:ro
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/common-persist/actuator/health || exit 1" ]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/common-persist/actuator/health
+            || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-otp:
     <<: *spring-db
     image: egovio/egov-otp:v2.9.2-4a60f20
@@ -170,24 +202,31 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx128m -XX:+UseG1GC"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/otp/health || exit 1" ]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/otp/health || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # CORE — TIER 2
-  # ═══════════════════════════════════════════════════════════════════════════
+  # 
+  # CORE  TIER 2
+  # 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-localization:
     <<: *spring-db
     image: egovio/egov-localization:v2.9.2-4a60f20
     container_name: egov-localization
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -199,23 +238,33 @@ services:
       SPRING_FLYWAY_VALIDATE_ON_MIGRATE: "false"
       FLYWAY_VALIDATE_ON_MIGRATE: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
+      SPRING_REDIS_HOST: "bpa-redis"
+      SPRING_REDIS_PORT: "6379"
       SERVER_PORT: 8080
-      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      JAVA_TOOL_OPTIONS: "-Xms512m -Xmx2500m -XX:+UseG1GC -Dspring.cache.type=none -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/localization/health || exit 0" ]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/localization/health ||
+            exit 0"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-idgen:
     <<: *spring-db
     image: egovio/egov-idgen:v2.9.2-4a60f20
     container_name: egov-idgen
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -234,21 +283,29 @@ services:
       IDFORMAT_FROM_MDMS: "false"
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/egov-idgen/health || exit 1" ]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/egov-idgen/health || exit
+            1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-filestore:
     <<: *spring-db
     image: egovio/egov-filestore:v2.9.2-4a60f20
     container_name: egov-filestore
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -271,27 +328,40 @@ services:
       FIXED_BUCKETNAME: "egov-filestore"
       FIXED_BUCKET_REGION: "us-east-1"
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     volumes:
       - bpa-filestore-data:/filestore
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/filestore/health || exit 1" ]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/filestore/health || exit
+            1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-enc-service:
     <<: *spring-db
     image: egovio/egov-enc-service:v2.9.2-4a60f20
     container_name: egov-enc-service
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
     environment:
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: >-
-        -Dspring.datasource.url=jdbc:postgresql://bpa-postgres:5432/bpa -Dspring.datasource.username=postgres -Dspring.datasource.password=postgres -Dspring.datasource.driver-class-name=org.postgresql.Driver -Dspring.flyway.url=jdbc:postgresql://bpa-postgres:5432/bpa -Dspring.flyway.user=postgres -Dspring.flyway.password=postgres -Dspring.flyway.enabled=true -Dspring.flyway.validate-on-migrate=false -Dflyway.validateOnMigrate=false -Dspring.kafka.bootstrap-servers=bpa-kafka:9092 -Xms64m -Xmx256m -XX:+UseG1GC
+        -Dspring.datasource.url=jdbc:postgresql://bpa-postgres:5432/bpa -Dspring.datasource.username=postgres
+        -Dspring.datasource.password=postgres -Dspring.datasource.driver-class-name=org.postgresql.Driver
+        -Dspring.flyway.url=jdbc:postgresql://bpa-postgres:5432/bpa -Dspring.flyway.user=postgres
+        -Dspring.flyway.password=postgres -Dspring.flyway.enabled=true -Dspring.flyway.validate-on-migrate=false
+        -Dflyway.validateOnMigrate=false -Dspring.kafka.bootstrap-servers=bpa-kafka:9092
+        -Xms64m -Xmx256m -XX:+UseG1GC
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
       EGOV_MDMS_HOST: "http://egov-mdms-service:8080"
       EGOV_MASTERS_MDMS_URL: "http://egov-mdms-service:8080/egov-mdms-service/v1/_search"
@@ -301,56 +371,79 @@ services:
       MASTER_SALT: "WnSSaltSalt"
       MASTER_INITIALVECTOR: "WnSWnSWnSWnSWnSW"
       STATE_LEVEL_TENANT_ID: pb
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/egov-enc-service/actuator/health || exit 1" ]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/egov-enc-service/actuator/health
+            || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # CORE — TIER 3
-  # ═══════════════════════════════════════════════════════════════════════════
+  # 
+  # CORE  TIER 3
+  # 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-user:
     <<: *spring-db
     image: egovio/egov-user:user-mobile-validation-7b987a2
     container_name: egov-user
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      egov-enc-service: { condition: service_healthy }
-      bpa-redis: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      egov-enc-service: {condition: service_healthy}
+      bpa-redis: {condition: service_healthy}
     environment:
       SERVER_PORT: 8080
       SPRING_REDIS_HOST: bpa-redis
       SPRING_REDIS_PORT: "6379"
       STATE_LEVEL_TENANT_ID: pb
       JAVA_TOOL_OPTIONS: >-
-        -Dspring.datasource.url=jdbc:postgresql://bpa-postgres:5432/bpa -Dspring.datasource.username=postgres -Dspring.datasource.password=postgres -Dspring.datasource.driver-class-name=org.postgresql.Driver -Dspring.flyway.url=jdbc:postgresql://bpa-postgres:5432/bpa -Dspring.flyway.user=postgres -Dspring.flyway.password=postgres -Dspring.flyway.enabled=true -Dspring.flyway.validate-on-migrate=false -Dspring.kafka.bootstrap-servers=bpa-kafka:9092 -Degov.enc.host=http://egov-enc-service:8080 -Degov.mdms.host=http://egov-mdms-service:8080 -Dmdms.host=http://egov-mdms-service:8080 -Degov.mdms.v2.host=http://egov-mdms-service:8080 -Dmobile.number.validation.workaround.enabled=true -Degov.state.level.tenant.id=pb -Xms64m -Xmx256m -XX:+UseG1GC
+        -Dspring.datasource.url=jdbc:postgresql://bpa-postgres:5432/bpa -Dspring.datasource.username=postgres
+        -Dspring.datasource.password=postgres -Dspring.datasource.driver-class-name=org.postgresql.Driver
+        -Dspring.flyway.url=jdbc:postgresql://bpa-postgres:5432/bpa -Dspring.flyway.user=postgres
+        -Dspring.flyway.password=postgres -Dspring.flyway.enabled=true -Dspring.flyway.validate-on-migrate=false
+        -Dspring.kafka.bootstrap-servers=bpa-kafka:9092 -Degov.enc.host=http://egov-enc-service:8080
+        -Degov.mdms.host=http://egov-mdms-service:8080 -Dmdms.host=http://egov-mdms-service:8080
+        -Degov.mdms.v2.host=http://egov-mdms-service:8080 -Dmobile.number.validation.workaround.enabled=true
+        -Degov.state.level.tenant.id=pb -Xms64m -Xmx256m -XX:+UseG1GC
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/user/health || exit 1" ]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/user/health || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # CORE — TIER 4
-  # ═══════════════════════════════════════════════════════════════════════════
+  # 
+  # CORE  TIER 4
+  # 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-workflow-v2:
     <<: *spring-db
     image: egovio/egov-workflow-v2:v2.9.2-4a60f20
     container_name: egov-workflow-v2
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      egov-localization: { condition: service_healthy }
-      egov-idgen: { condition: service_healthy }
-      egov-user: { condition: service_healthy }
-      egov-filestore: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      egov-localization: {condition: service_healthy}
+      egov-idgen: {condition: service_healthy}
+      egov-user: {condition: service_healthy}
+      egov-filestore: {condition: service_healthy}
     environment:
+      IS_ENVIRONMENT_CENTRAL_INSTANCE: "false"
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
       SPRING_DATASOURCE_USERNAME: postgres
@@ -371,27 +464,35 @@ services:
       STATE_LEVEL_TENANT_ID: "pb"
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/egov-workflow-v2/health || exit 1" ]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/egov-workflow-v2/health
+            || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # CORE — TIER 5
-  # ═══════════════════════════════════════════════════════════════════════════
+  # 
+  # CORE  TIER 5
+  # 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   billing-service:
     <<: *spring-db
     image: egovio/billing:schema-migration-changes-eaeb1e8
     container_name: billing-service
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      egov-idgen: { condition: service_healthy }
-      egov-workflow-v2: { condition: service_healthy }
-      egov-user: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      egov-idgen: {condition: service_healthy}
+      egov-workflow-v2: {condition: service_healthy}
+      egov-user: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -408,7 +509,7 @@ services:
       EGOV_MDMS_HOST: "http://egov-mdms-service:8080"
       EGOV_IDGEN_HOST: "http://egov-idgen:8080"
       EGOV_WORKFLOW_HOST: "http://egov-workflow-v2:8080"
-      EGOV_EDCR_HOST: "http://amritsar-dev.egovernments.org:8080"
+      EGOV_EDCR_HOST: "http://mock-edcr:8080"
       EGOV_LANDINFO_HOST: "http://land-services:8080"
       EGOV_LOCATION_HOST: "http://egov-location:8080"
       DB_HOST: bpa-postgres
@@ -420,13 +521,21 @@ services:
       EGOV_USER_HOST: "http://egov-user:8080"
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health || wget -qO- http://localhost:8080/ || exit 0"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/health || wget -qO- http://localhost:8080/
+            || exit 0"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-edcr:
     <<: *spring-db
     image: egovio/egov-edcr:v2.1.2-b7216441d5-67
@@ -439,10 +548,10 @@ services:
         reservations:
           memory: 256M
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      bpa-redis: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      bpa-redis: {condition: service_healthy}
     environment:
       DB_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
       READWRITE_DS: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -465,9 +574,14 @@ services:
       SPRING_REDIS_HOST: bpa-redis
       SPRING_REDIS_PORT: "6379"
       SERVER_PORT: 8080
-      JAVA_OPTS: "-Xms256m -Xmx1536m -XX:+UseG1GC -Dredis.host.name=bpa-redis -Dredis.host.port=6379 -Dredis.enable.embedded=false -Dredis.enable.sentinel=false -Dredis.host=bpa-redis -Dredis.port=6379 -Dspring.redis.host=bpa-redis -Dspring.redis.port=6379 -Dms.url=http://egov-filestore:8080/"
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx1536m"
+      JAVA_OPTS: "-Xms256m -Xmx1536m -XX:+UseG1GC -Dredis.host.name=bpa-redis -Dredis.host.port=6379
+        -Dredis.enable.embedded=false -Dredis.enable.sentinel=false -Dredis.host=bpa-redis
+        -Dredis.port=6379 -Dspring.redis.host=bpa-redis -Dspring.redis.port=6379 -Dms.url=http://egov-filestore:8080/"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "timeout 3 bash -c 'cat < /dev/null > /dev/tcp/localhost/8080' && exit 0 || exit 1"]
+      test: ["CMD-SHELL", "timeout 3 bash -c 'cat < /dev/null > /dev/tcp/localhost/8080'
+            && exit 0 || exit 1"]
       interval: 30s
       timeout: 10s
       retries: 5
@@ -477,9 +591,15 @@ services:
         aliases:
           - amritsar-dev.egovernments.org
 
-  # ═══════════════════════════════════════════════════════════════════════════
-  # BUSINESS — BPA
-  # ═══════════════════════════════════════════════════════════════════════════
+  # 
+  # BUSINESS  BPA
+  # 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   bpa-service:
     <<: *spring-base
     image: nehaentit/egov-bpa-service:prod-02012025-3
@@ -492,14 +612,14 @@ services:
         reservations:
           memory: 256M
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      egov-idgen: { condition: service_healthy }
-      egov-workflow-v2: { condition: service_healthy }
-      egov-user: { condition: service_healthy }
-      billing-service: { condition: service_healthy }
-      egov-edcr: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      egov-idgen: {condition: service_healthy}
+      egov-workflow-v2: {condition: service_healthy}
+      egov-user: {condition: service_healthy}
+      billing-service: {condition: service_healthy}
+      egov-edcr: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -520,12 +640,12 @@ services:
       EGOV_WORKFLOW_HOST: "http://egov-workflow-v2:8080"
       WORKFLOW_WORKDIR_PATH: "http://egov-workflow-v2:8080"
       WORKFLOW_CONTEXT_PATH: "http://egov-workflow-v2:8080"
-      EGOV_EDCR_HOST: "http://amritsar-dev.egovernments.org:8080"
+      EGOV_EDCR_HOST: "http://mock-edcr:8080"
       EGOV_LANDINFO_HOST: "http://land-services:8080"
       EGOV_LOCATION_HOST: "http://egov-location:8080"
       EGOV_USER_HOST: "http://egov-user:8080"
       EGOV_BILLING_SERVICE_HOST: "http://billing-service:8080"
-      EGOV_BILLINGSERVICE_HOST: "http://billing-service:8080"
+      EGOV_BILLINGSERVICE_HOST: "http://egov-gateway:80"
       EGOV_PROPERTY_SERVICE_HOST: "http://egov-mdms-service:8080"
       EGOV_LOCALIZATION_HOST: "http://egov-localization:8080"
       NOTIFICATION_URL: "http://egov-notification-sms:8080/"
@@ -536,23 +656,54 @@ services:
       STATE_LEVEL_TENANT_ID: pb
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Dspring.flyway.enabled=false"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: [ "CMD-SHELL", "wget -qO- http://localhost:8080/bpa-services/health || exit 1" ]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/bpa-services/health ||
+            exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
-  # ═══════════════════════════════════════════════════════════════════════════
-  # MUNICIPAL SERVICES — TIER 6
-  # ═══════════════════════════════════════════════════════════════════════════
+  # 
+  # MUNICIPAL SERVICES  TIER 6
+  # 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
+  egov-accesscontrol:
+    image: egovio/egov-accesscontrol:v1.1.3-72f8a8f87b-24
+    container_name: egov-accesscontrol
+    networks:
+      - bpa-network
+    depends_on:
+      - bpa-postgres
+      - egov-mdms-service
+    environment:
+      - SERVER_PORT=8080
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://bpa-postgres:5432/bpa
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_FLYWAY_URL=jdbc:postgresql://bpa-postgres:5432/bpa
+      - SPRING_FLYWAY_USER=postgres
+      - SPRING_FLYWAY_PASSWORD=postgres
+      - SPRING_FLYWAY_VALIDATE_ON_MIGRATE=false
+      - FLYWAY_VALIDATE_ON_MIGRATE=false
+      - EGOV_MDMS_HOST=http://egov-mdms-service:8080
+      - EGOV_MDMS_SEARCH_ENDPOINT=/egov-mdms-service/v1/_search
+      - JAVA_TOOL_OPTIONS=-Xmx256m -Xms64m
+      - SERVER_CONTEXT_PATH=/egov-accesscontrol
+      - SPRING_FLYWAY_ENABLED=true
   egov-location:
     <<: *spring-db
     image: egovio/egov-location:security-patch-9fd450a
     container_name: egov-location
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -566,7 +717,10 @@ services:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
       STATE_LEVEL_TENANT_ID: pb
       SERVER_PORT: 8080
-      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.services.egov_mdms.hostname=http://egov-mdms-service:8080/ -Degov.mdms.host=http://egov-mdms-service:8080 -Degov.services.mdms.host=http://egov-mdms-service:8080 -Degov.mdms.search.endpoint=/egov-mdms-service/v1/_search"
+      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.services.egov_mdms.hostname=http://egov-mdms-service:8080/
+        -Degov.mdms.host=http://egov-mdms-service:8080 -Degov.services.mdms.host=http://egov-mdms-service:8080
+        -Degov.mdms.search.endpoint=/egov-mdms-service/v1/_search"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
       test: ["CMD", "true"]
       interval: 20s
@@ -574,28 +728,41 @@ services:
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-notification-sms:
     <<: *spring-db
     image: egovio/egov-notification-sms:mobile-validation-user-otp-a2217e8
     container_name: egov-notification-sms
     depends_on:
-      bpa-kafka: { condition: service_healthy }
+      bpa-kafka: {condition: service_healthy}
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
       SMS_ENABLED: "false"
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx128m -XX:+UseG1GC"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
       disable: true
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-searcher:
     <<: *spring-db
     image: egovio/egov-searcher:master-49ad96d7
     container_name: egov-searcher
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -609,21 +776,29 @@ services:
       EGOV_MDMS_HOST: "http://egov-mdms-service:8080"
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/egov-searcher/actuator/health || exit 0"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/egov-searcher/actuator/health
+            || exit 0"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-indexer:
     <<: *spring-db
     image: egovio/egov-indexer:base-docker-upgrade-ce613c1
     container_name: egov-indexer
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -638,22 +813,30 @@ services:
       EGOV_INDEXER_YML_REPO_PATH: "https://raw.githubusercontent.com/egovernments/configs/master/egov-indexer/egov-pt-indexer.yml,https://raw.githubusercontent.com/egovernments/configs/master/egov-indexer/rainmaker-pgr-indexer.yml"
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/egov-indexer/health || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/egov-indexer/health ||
+            exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   egov-user-event:
     <<: *spring-db
     image: egovio/egov-user-event:master-0f67ed9
     container_name: egov-user-event
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      egov-user: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      egov-user: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -669,21 +852,29 @@ services:
       STATE_LEVEL_TENANT_ID: pb
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/egov-user-event/health || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/egov-user-event/health
+            || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   pdf-service:
     <<: *spring-base
     image: egovio/pdf-service:pdf-service-security-fixes-1eacb70
     container_name: pdf-service
     depends_on:
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      egov-filestore: { condition: service_healthy }
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      egov-filestore: {condition: service_healthy}
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
       EGOV_MDMS_HOST: "http://egov-mdms-service:8080"
@@ -691,24 +882,32 @@ services:
       DATA_CONFIG_URLS: "https://raw.githubusercontent.com/egovernments/configs/master/pdf-service/data-config.yaml"
       FORMAT_CONFIG_URLS: "https://raw.githubusercontent.com/egovernments/configs/master/pdf-service/format-config.yaml"
       SERVER_PORT: 8080
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/pdf-service/v1/cache/reload || exit 0"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/pdf-service/v1/cache/reload
+            || exit 0"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   collection-services:
     <<: *spring-db
     image: egovio/collection-services:master-0f67ed9
     container_name: collection-services
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      egov-idgen: { condition: service_healthy }
-      egov-user: { condition: service_healthy }
-      billing-service: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      egov-idgen: {condition: service_healthy}
+      egov-user: {condition: service_healthy}
+      billing-service: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -727,26 +926,35 @@ services:
       STATE_LEVEL_TENANT_ID: pb
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/collection-services/actuator/health || wget -qO- http://localhost:8080/collection-services/v1/_search || exit 0"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/collection-services/actuator/health
+            || wget -qO- http://localhost:8080/collection-services/v1/_search || exit
+            0"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   tl-services:
     <<: *spring-db
     image: egovio/tl-services:master-73f249dc
     container_name: tl-services
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      egov-idgen: { condition: service_healthy }
-      egov-user: { condition: service_healthy }
-      egov-workflow-v2: { condition: service_healthy }
-      billing-service: { condition: service_healthy }
-      collection-services: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      egov-idgen: {condition: service_healthy}
+      egov-user: {condition: service_healthy}
+      egov-workflow-v2: {condition: service_healthy}
+      billing-service: {condition: service_healthy}
+      collection-services: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -762,7 +970,7 @@ services:
       EGOV_IDGEN_HOST: "http://egov-idgen:8080"
       EGOV_USER_HOST: "http://egov-user:8080"
       EGOV_WORKFLOW_HOST: "http://egov-workflow-v2:8080"
-      EGOV_EDCR_HOST: "http://amritsar-dev.egovernments.org:8080"
+      EGOV_EDCR_HOST: "http://mock-edcr:8080"
       EGOV_LANDINFO_HOST: "http://land-services:8080"
       EGOV_LOCATION_HOST: "http://egov-location:8080"
       EGOV_BILLING_HOST: "http://billing-service:8080"
@@ -770,24 +978,32 @@ services:
       STATE_LEVEL_TENANT_ID: pb
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/tl-services/health || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/tl-services/health || exit
+            1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   land-services:
     <<: *spring-db
     image: egovio/land-services:master-73f249dc
     container_name: land-services
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      egov-idgen: { condition: service_healthy }
-      egov-user: { condition: service_healthy }
-      egov-workflow-v2: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      egov-idgen: {condition: service_healthy}
+      egov-user: {condition: service_healthy}
+      egov-workflow-v2: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -803,30 +1019,38 @@ services:
       EGOV_IDGEN_HOST: "http://egov-idgen:8080"
       EGOV_USER_HOST: "http://egov-user:8080"
       EGOV_WORKFLOW_HOST: "http://egov-workflow-v2:8080"
-      EGOV_EDCR_HOST: "http://amritsar-dev.egovernments.org:8080"
+      EGOV_EDCR_HOST: "http://mock-edcr:8080"
       EGOV_LANDINFO_HOST: "http://land-services:8080"
       EGOV_LOCATION_HOST: "http://egov-location:8080"
       STATE_LEVEL_TENANT_ID: pb
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/land-services/health || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/land-services/health ||
+            exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   noc-services:
     <<: *spring-db
     image: egovio/noc-services:v1.1.0-0e1715c451-10
     container_name: noc-services
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      egov-idgen: { condition: service_healthy }
-      egov-user: { condition: service_healthy }
-      egov-workflow-v2: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      egov-idgen: {condition: service_healthy}
+      egov-user: {condition: service_healthy}
+      egov-workflow-v2: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -842,29 +1066,39 @@ services:
       EGOV_IDGEN_HOST: "http://egov-idgen:8080"
       EGOV_USER_HOST: "http://egov-user:8080"
       EGOV_WORKFLOW_HOST: "http://egov-workflow-v2:8080"
-      EGOV_EDCR_HOST: "http://amritsar-dev.egovernments.org:8080"
+      EGOV_EDCR_HOST: "http://mock-edcr:8080"
       EGOV_LANDINFO_HOST: "http://land-services:8080"
       EGOV_LOCATION_HOST: "http://egov-location:8080"
       STATE_LEVEL_TENANT_ID: pb
       SERVER_PORT: 8080
       JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/noc-services/health || exit 1"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/noc-services/health ||
+            exit 1"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   bpa-calculator:
     <<: *spring-db
-    image: egovio/bpa-calculator:v1.2.0-2d4cde6c09-7
+    build:
+      context: ./bpa-calculator-go
+      dockerfile: Dockerfile
     container_name: bpa-calculator
     depends_on:
-      bpa-postgres: { condition: service_healthy }
-      bpa-kafka: { condition: service_healthy }
-      egov-mdms-service: { condition: service_healthy }
-      billing-service: { condition: service_healthy }
-      bpa-service: { condition: service_healthy }
+      bpa-postgres: {condition: service_healthy}
+      bpa-kafka: {condition: service_healthy}
+      egov-mdms-service: {condition: service_healthy}
+      billing-service: {condition: service_healthy}
+      bpa-service: {condition: service_healthy}
     environment:
       SPRING_DATASOURCE_DRIVER_CLASS_NAME: "org.postgresql.Driver"
       SPRING_DATASOURCE_URL: "jdbc:postgresql://bpa-postgres:5432/bpa"
@@ -877,21 +1111,30 @@ services:
       FLYWAY_VALIDATE_ON_MIGRATE: "false"
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "bpa-kafka:9092"
       EGOV_MDMS_HOST: "http://egov-mdms-service:8080"
-      EGOV_BILLINGSERVICE_HOST: "http://billing-service:8080"
+      EGOV_BILLINGSERVICE_HOST: "http://egov-gateway:80"
+      BILLING_HOST: "http://nginx:80"
       EGOV_BPA_HOST: "http://bpa-service:8080"
-      EGOV_EDCR_HOST: "http://amritsar-dev.egovernments.org:8080"
+      EGOV_EDCR_HOST: "http://mock-edcr:8080"
       EGOV_LANDINFO_HOST: "http://land-services:8080"
       EGOV_LOCATION_HOST: "http://egov-location:8080"
       STATE_LEVEL_TENANT_ID: pb
       SERVER_PORT: 8080
-      JAVA_TOOL_OPTIONS: "-Xms64m -Xmx256m -XX:+UseG1GC -Degov.mdms.host=http://egov-mdms-service:8080"
+
+      LOGGING_LEVEL_ROOT: WARN
     healthcheck:
-      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/bpa-calculator/actuator/health || exit 0"]
+      test: ["CMD-SHELL", "wget -qO- http://localhost:8080/bpa-calculator/actuator/health
+            || exit 0"]
       interval: 20s
       timeout: 5s
       retries: 10
       start_period: 60s
 
+    restart: no
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
   minio:
     image: minio/minio:latest
     container_name: minio
@@ -903,3 +1146,50 @@ services:
     command: server /data
     networks:
       - bpa-network
+
+
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
+    restart: always
+  mock-edcr:
+    image: node:18-alpine
+    container_name: mock-edcr
+    working_dir: /app
+    volumes:
+      - ./mock-edcr.js:/app/mock-edcr.js
+    command: node mock-edcr.js
+    ports:
+      - "8081:8080"
+    networks:
+      - bpa-network
+
+    logging:
+      driver: json-file
+      options:
+        max-size: 20m
+        max-file: '3'
+    restart: no
+
+  digit-ui:
+    image: egovio/digit-ui:digit-ui-local-setup-366943c
+    container_name: digit-ui
+    networks:
+      - bpa-network
+    volumes:
+      - ./digit-ui-index.html:/var/web/digit-ui/index.html
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./locale-all.json:/etc/nginx/locale-all.json
+    networks:
+      - bpa-network
+    depends_on:
+      - digit-ui

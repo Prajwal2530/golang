@@ -1,1 +1,32 @@
-{"RequestInfo":{"apiId":"Rainmaker","ver":".01","msgId":"","authToken":"1d9597f1-17d5-4a0a-a77e-eedad49eb646","userInfo":{"uuid":"a0a07fa3-477a-4f82-900a-ae240f1ffe60","tenantId":"pb","roles":[{"code":"SUPERUSER","tenantId":"pb"}]}},"ProcessInstances":[{"tenantId":"pb","businessService":"BPA","businessId":"PB-BP-2026-05-24-000001","action":"INITIATE","moduleName":"bpa-services"}]}
+{
+  "RequestInfo": {
+    "apiId": "Rainmaker",
+    "ver": ".01",
+    "msgId": "",
+    "authToken": "1d9597f1-17d5-4a0a-a77e-eedad49eb646",
+    "userInfo": {
+      "type": "EMPLOYEE",
+      "uuid": "20a8cc29-b4d5-45f7-ae10-d973b01de2b7",
+      "tenantId": "pb.amritsar",
+      "roles": [
+        {
+          "code": "SUPERUSER",
+          "tenantId": "pb.amritsar"
+        },
+        {
+          "code": "BPA_VERIFIER",
+          "tenantId": "pb.amritsar"
+        }
+      ]
+    }
+  },
+  "ProcessInstances": [
+    {
+      "tenantId": "pb.amritsar",
+      "businessService": "BPA_OC",
+      "businessId": "ab091c44-57c7-4aa3-b927-c918b9015bb7",
+      "action": "APPROVE",
+      "moduleName": "bpa-services"
+    }
+  ]
+}

@@ -3,6 +3,97 @@
   "moduleName": "BPA",
   "CalculationType": [
     {
+      "applicationType": "ALL",
+      "serviceType": "ALL",
+      "riskType": "ALL",
+      "feeType": "BPA_SCRUTINY_FEE",
+      "amount": 200
+    },
+    {
+      "applicationType": "permit",
+      "serviceType": "NEW_CONSTRUCTION",
+      "riskType": "LOW",
+      "feeType": "ApplicationFee",
+      "amount": 200
+    },
+    {
+      "applicationType": "permit",
+      "serviceType": "NEW_CONSTRUCTION",
+      "riskType": "LOW",
+      "feeType": "SanctionFee",
+      "amount": 500
+    },
+    {
+      "applicationType": "ALL",
+      "serviceType": "ALL",
+      "riskType": "ALL",
+      "feeType": "BPA_OC.NC_APP_FEE",
+      "amount": 200
+    },
+    {
+      "applicationType": "ALL",
+      "serviceType": "ALL",
+      "riskType": "ALL",
+      "feeType": "BPA_OC.NC_SAN_FEE",
+      "amount": 500
+    },
+    {
+      "applicationType": "ALL",
+      "serviceType": "ALL",
+      "riskType": "ALL",
+      "feeType": "BPA.NC_APP_FEE",
+      "amount": 200
+    },
+    {
+      "applicationType": "ALL",
+      "serviceType": "ALL",
+      "riskType": "ALL",
+      "feeType": "BPA.NC_SAN_FEE",
+      "amount": 500
+    },
+    {
+      "applicationType": "BUILDING_PLAN_SCRUTINY",
+      "serviceType": "NEW_CONSTRUCTION",
+      "riskType": "LOW",
+      "feeType": "ApplicationFee",
+      "amount": 200
+    },
+    {
+      "applicationType": "BUILDING_PLAN_SCRUTINY",
+      "serviceType": "NEW_CONSTRUCTION",
+      "riskType": "LOW",
+      "feeType": "SanctionFee",
+      "amount": 500
+    },
+    {
+      "applicationType": "ALL",
+      "serviceType": "ALL",
+      "riskType": "ALL",
+      "feeType": "ApplicationFee",
+      "amount": 200
+    },
+    {
+      "applicationType": "ALL",
+      "serviceType": "ALL",
+      "riskType": "ALL",
+      "feeType": "SanctionFee",
+      "amount": 500
+    },
+    {
+      "applicationType": "ALL",
+      "serviceType": "ALL",
+      "riskType": "ALL",
+      "feeType": "Low_ApplicationFee",
+      "amount": 200
+    },
+    {
+      "applicationType": "ALL",
+      "serviceType": "ALL",
+      "riskType": "ALL",
+      "feeType": "Low_SanctionFee",
+      "amount": 500
+    },
+    {
       "applicationType": "BUILDING_PLAN_SCRUTINY",
       "serviceType": "ALL",
       "riskType": "LOW",
@@ -107,6 +198,13 @@
       "riskType": "LOW",
       "feeType": "SanctionFee",
       "amount": 500
+    },
+    {
+      "applicationType": "BUILDING_PLAN_SCRUTINY",
+      "serviceType": "NEW_CONSTRUCTION",
+      "riskType": "LOW",
+      "feeType": "BPA.LOW_RISK_PERMIT_FEE",
+      "amount": 5000
     },
     {
       "applicationType": "BUILDING_OC_PLAN_SCRUTINY",

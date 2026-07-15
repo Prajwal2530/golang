@@ -1,0 +1,21 @@
+{
+  "requestInfo": {
+    "apiId": "Rainmaker",
+    "ver": "1.0",
+    "action": "_create",
+    "authToken": "",
+    "userInfo": {"tenantId": "pb.amritsar"}
+  },
+  "user": {
+    "userName": "admin2",
+    "name": "Admin User",
+    "mobileNumber": "9999999999",
+    "emailId": "admin2@pb.amritsar",
+    "password": "Admin@123",
+    "pwdExpiryDate": "31-12-2030 23:59:59",
+    "active": true,
+    "type": "EMPLOYEE",
+    "tenantId": "pb.amritsar",
+    "roles": [{"code": "SUPERUSER", "tenantId": "pb.amritsar"}]
+  }
+}
